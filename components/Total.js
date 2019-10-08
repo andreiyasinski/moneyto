@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import React from 'react';
+import { connect } from 'react-redux';
+import { Text, View, StyleSheet } from 'react-native';
 
 const Total = ({ total }) => {
   return (
@@ -15,4 +16,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Total;
+const mapStateToProps = (state) => {
+  return {
+    total: state.amounts.reduce((sum, current) => {
+      return sum + +current.value;
+    }, 0)
+  }
+}
+
+export default connect(mapStateToProps)(Total);

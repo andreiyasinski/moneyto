@@ -1,14 +1,16 @@
 import React from 'react';
-import { Text, View, FlatList, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { connect } from 'react-redux';
+import { deleteAmount, editAmount } from '../store/actions';
+import { View, FlatList, StyleSheet } from 'react-native';
 import CurrenciesItems from '../components/CurrenciesItem';
 
 
-const Currencies = ({ onEditValue, onDelete, items }) => {
+const Currencies = ({ amounts, deleteAmount, editAmount }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={items}
-        renderItem={({ item }) => <CurrenciesItems onDelete={onDelete} item={item} onEditValue={onEditValue} />}
+        data={amounts}
+        renderItem={({ item }) => <CurrenciesItems onDelete={deleteAmount} item={item} onEditValue={editAmount} />}
         keyExtractor={item => item.id}
       />
     </View>
@@ -23,4 +25,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Currencies;
+const mapStateToProps = (state) => {
+  return {
+    amounts: state.amounts,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteAmount: (id) => {
+      dispatch(deleteAmount(id))
+    },
+    editAmount: (id, value) => {
+      dispatch(editAmount(id, value))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Currencies);

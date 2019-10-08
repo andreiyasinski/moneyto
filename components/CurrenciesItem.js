@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
+import SelectInput from 'react-native-select-input-ios';
 import { 
-  Text,
   View,
   StyleSheet,
-  Button,
-  FlatList,
-  ScrollView,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   Platform,
-  Picker,
-  Dimensions,
-  Animated,
 } from 'react-native';
 import TabBarIcon from '../components/TabBarIcon';
-import SelectInput from 'react-native-select-input-ios'
 
 const CurrenciesItems = ({ onEditValue, onDelete, item }) => {
   const [input, setInput] = useState(null)
@@ -26,8 +18,8 @@ const CurrenciesItems = ({ onEditValue, onDelete, item }) => {
     onEditValue(item.id, value)
   }
   const options = [
-    { value: 'kjavvasd', label: 'kjavvasd' },
-    { value: 'kjavv1asd', label: 'kj1avvasd' }
+    { value: 'kjavvasd', label: 'kjavvasd11' },
+    { value: 'kjavv1asd', label: 'kj1avvasd11' }
   ];
 
   return (
