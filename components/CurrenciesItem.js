@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SelectInput from 'react-native-select-input-ios';
 import { 
   View,
@@ -9,18 +9,29 @@ import {
 } from 'react-native';
 import TabBarIcon from '../components/TabBarIcon';
 
-const CurrenciesItems = ({ onEditValue, onDelete, item }) => {
+const CurrenciesItems = ({ onEditValue, onDelete, item, rates }) => {
   const [input, setInput] = useState(null)
-  const [currency, setCurrency] = useState('js');
+  const [currency, setCurrency] = useState('USD');
+  const [rateNames, setRateNames] = useState([]);
 
   const handleInput = (value) => {
     setInput(value);
-    onEditValue(item.id, value)
+    onEditValue(item.id, value, currency)
   }
-  const options = [
-    { value: 'kjavvasd', label: 'kjavvasd11' },
-    { value: 'kjavv1asd', label: 'kj1avvasd11' }
-  ];
+
+  const handleSelectInput = (itemValue) => {
+    setCurrency(itemValue)
+    onEditValue(item.id, input, itemValue)
+  }
+
+  const options = [];
+
+  useEffect(() => {
+    for (let key in rates) {
+      options.push({ value: key, label: key })
+    }
+    setRateNames(options)
+  }, [rates])
 
   return (
     <View style={styles.container}>
@@ -32,12 +43,25 @@ const CurrenciesItems = ({ onEditValue, onDelete, item }) => {
           keyboardType="numeric"
         />
       </View>
-      <SelectInput value={'kjavvasd'} options={options} />
+      <View style={styles.selectInput}>
+        <SelectInput
+          onValueChange={(itemValue) => handleSelectInput(itemValue)}
+          value={currency}
+          options={rateNames} 
+        />
+        <View style={{marginLeft: 5}}>
+          <TabBarIcon
+              size={20}
+              name={Platform.OS === 'ios'
+                ? 'ios-arrow-down'
+                : 'sort-down'}
+            />
+        </View>
+      </View>
       <View>
         <TouchableOpacity style={{paddingHorizontal: 12}} onPress={() => onDelete(item.id)}>
           <TabBarIcon
             size={40}
-            style={styles.addButton}
             name={Platform.OS === 'ios'
               ? 'ios-close'
               : 'close'}
@@ -62,6 +86,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: 5,
   },
+  selectInput: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  }
 });
 
 export default CurrenciesItems;

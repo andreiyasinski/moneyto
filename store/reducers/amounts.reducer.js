@@ -4,7 +4,8 @@ import id from 'uuid/v4';
 const initialState = [
   {
     value: null,
-    id: id()
+    id: id(),
+    currency: 'USD'
   }
 ];
 

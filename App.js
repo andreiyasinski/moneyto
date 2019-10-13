@@ -4,13 +4,17 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware  } from 'redux';
 import moneyToApp from './store/reducers';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { fetchData } from './store/actions/index';
 
 import AppNavigator from './navigation/AppNavigator';
 
-const store = createStore(moneyToApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore(moneyToApp, applyMiddleware(thunk))
+
+store.dispatch(fetchData());
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
