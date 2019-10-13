@@ -45,13 +45,14 @@ const CurrenciesItems = ({ onEditValue, onDelete, item, rates }) => {
       </View>
       <View style={styles.selectInput}>
         <SelectInput
+          style={{paddingRight: 20}}
           onValueChange={(itemValue) => handleSelectInput(itemValue)}
           value={currency}
-          options={rateNames} 
+          options={rateNames}
         />
-        <View style={{marginLeft: 5}}>
+        <View >
           <TabBarIcon
-              size={20}
+              size={15}
               name={Platform.OS === 'ios'
                 ? 'ios-arrow-down'
                 : 'sort-down'}
@@ -87,10 +88,13 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   selectInput: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
+    // paddingHorizontal: 15,
+    marginHorizontal: 15,
     flexDirection: "row",
     alignItems: "center",
+    borderBottomColor: "#bfbfbf",
+    borderBottomWidth: 1,
+    paddingVertical: 5,
   }
 });
 

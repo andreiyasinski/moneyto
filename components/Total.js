@@ -25,16 +25,17 @@ const Total = ({ total, rates, editBase }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Total: {total}</Text>
+      <Text style={styles.text}>Total: {total}</Text>
       <View style={styles.selectInput}>
         <SelectInput
+          style={{paddingRight: 20}}
           onValueChange={(itemValue) => handleSelectInput(itemValue)}
           value={currency}
           options={rateNames}
         />
         <View style={{marginLeft: 5}}>
           <TabBarIcon
-              size={20}
+              size={15}
               name={Platform.OS === 'ios'
                 ? 'ios-arrow-down'
                 : 'sort-down'}
@@ -50,14 +51,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: "center",
-    paddingHorizontal: 30,
-    marginVertical: 20
+    marginHorizontal: 30,
+    paddingVertical: 15,
+    borderTopColor: "#bfbfbf",
+    borderTopWidth: 1,
+  },
+  text: {
+    fontSize: 18
   },
   selectInput: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
     flexDirection: "row",
     alignItems: "center",
+    borderBottomColor: "#bfbfbf",
+    borderBottomWidth: 1,
+    paddingVertical: 4,
   }
 });
 

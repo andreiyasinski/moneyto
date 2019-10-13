@@ -9,7 +9,7 @@ const AddButton = ({addAmount}) => {
     <View style={styles.container} >
       <TouchableOpacity onPress={addAmount}>
       <TabBarIcon
-        size={40}
+        size={50}
         name={Platform.OS === 'ios'
           ? 'ios-add-circle-outline'
           : 'add-circle-outline'}
