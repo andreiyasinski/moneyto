@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { editBase } from '../store/actions';
-import { Text, View, StyleSheet, Platform } from 'react-native';
+import { Text, View, StyleSheet, Platform, Picker } from 'react-native';
 import SelectInput from 'react-native-select-input-ios';
 import TabBarIcon from '../components/TabBarIcon';
 
@@ -27,20 +27,37 @@ const Total = ({ total, rates, editBase }) => {
     <View style={styles.container}>
       <Text style={styles.text}>Total: {total}</Text>
       <View style={styles.selectInput}>
-        <SelectInput
-          style={{paddingRight: 20}}
-          onValueChange={(itemValue) => handleSelectInput(itemValue)}
-          value={currency}
-          options={rateNames}
-        />
-        <View style={{marginLeft: 5}}>
-          <TabBarIcon
-              size={15}
-              name={Platform.OS === 'ios'
-                ? 'ios-arrow-down'
-                : 'sort-down'}
-            />
-        </View>
+        {
+          Platform.OS === 'ios'
+          ? 
+          <SelectInput
+            style={{paddingRight: 20}}
+            onValueChange={(itemValue) => handleSelectInput(itemValue)}
+            value={currency}
+            options={rateNames}
+          />
+          : 
+          <Picker
+            selectedValue={currency}
+            style={{height: 28, width: 120}}
+            onValueChange={(itemValue) => handleSelectInput(itemValue)}
+          >
+            {
+              rateNames.map(item => (
+                <Picker.Item key={item.value} label={item.value}  value={item.value}  />
+              ))
+            }
+          </Picker>
+        }
+        {
+          Platform.OS === 'ios' &&
+          <View style={{marginLeft: 5}}>
+            <TabBarIcon
+                size={15}
+                name="ios-arrow-down"
+              />
+          </View>
+        }
       </View>
     </View>
   )

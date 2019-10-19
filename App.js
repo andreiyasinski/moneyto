@@ -13,7 +13,6 @@ import { fetchData } from './store/actions/index';
 import AppNavigator from './navigation/AppNavigator';
 
 const store = createStore(moneyToApp, applyMiddleware(thunk))
-
 store.dispatch(fetchData());
 
 export default function App(props) {

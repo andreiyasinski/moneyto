@@ -12,7 +12,7 @@ const AddButton = ({addAmount}) => {
         size={50}
         name={Platform.OS === 'ios'
           ? 'ios-add-circle-outline'
-          : 'add-circle-outline'}
+          : 'md-add-circle-outline'}
       />
       </TouchableOpacity>
     </View>

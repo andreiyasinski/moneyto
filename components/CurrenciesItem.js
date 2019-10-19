@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
+  Picker
 } from 'react-native';
 import TabBarIcon from '../components/TabBarIcon';
 
@@ -13,6 +14,15 @@ const CurrenciesItems = ({ onEditValue, onDelete, item, rates }) => {
   const [input, setInput] = useState(null)
   const [currency, setCurrency] = useState('USD');
   const [rateNames, setRateNames] = useState([]);
+  
+  const options = [];
+
+  useEffect(() => {
+    for (let key in rates) {
+      options.push({ value: key, label: key })
+    }
+    setRateNames(options)
+  }, [rates])
 
   const handleInput = (value) => {
     setInput(value);
@@ -23,15 +33,6 @@ const CurrenciesItems = ({ onEditValue, onDelete, item, rates }) => {
     setCurrency(itemValue)
     onEditValue(item.id, input, itemValue)
   }
-
-  const options = [];
-
-  useEffect(() => {
-    for (let key in rates) {
-      options.push({ value: key, label: key })
-    }
-    setRateNames(options)
-  }, [rates])
 
   return (
     <View style={styles.container}>
@@ -44,20 +45,37 @@ const CurrenciesItems = ({ onEditValue, onDelete, item, rates }) => {
         />
       </View>
       <View style={styles.selectInput}>
-        <SelectInput
-          style={{paddingRight: 20}}
-          onValueChange={(itemValue) => handleSelectInput(itemValue)}
-          value={currency}
-          options={rateNames}
-        />
-        <View >
-          <TabBarIcon
-              size={15}
-              name={Platform.OS === 'ios'
-                ? 'ios-arrow-down'
-                : 'sort-down'}
-            />
-        </View>
+        {
+          Platform.OS === 'ios'
+          ? 
+          <SelectInput
+            style={{paddingRight: 20}}
+            onValueChange={(itemValue) => handleSelectInput(itemValue)}
+            value={currency}
+            options={rateNames}
+          />
+          : 
+          <Picker
+            selectedValue={currency}
+            style={{height: 28, width: 120}}
+            onValueChange={(itemValue) => handleSelectInput(itemValue)}
+          >
+            {
+              rateNames.map(item => (
+                <Picker.Item key={item.value} label={item.value}  value={item.value}  />
+              ))
+            }
+          </Picker>
+        }
+        {
+          Platform.OS === 'ios' &&
+          <View style={{marginLeft: 5}}>
+            <TabBarIcon
+                size={15}
+                name="ios-arrow-down"
+              />
+          </View>
+        }
       </View>
       <View>
         <TouchableOpacity style={{paddingHorizontal: 12}} onPress={() => onDelete(item.id)}>
@@ -65,7 +83,7 @@ const CurrenciesItems = ({ onEditValue, onDelete, item, rates }) => {
             size={40}
             name={Platform.OS === 'ios'
               ? 'ios-close'
-              : 'close'}
+              : 'md-close'}
           />
         </TouchableOpacity>
       </View>
